@@ -2,42 +2,18 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: "static/images/uploads"
-public_folder: "/images/uploads"
+media_folder: "static/images"
+public_folder: "/images"
 
 collections:
-  - name: "articles"
-    label: "Makaleler"
-    folder: "content/articles"
+  - name: articles
+    label: Makaleler
+    folder: content/articles
     create: true
-    delete: true
     fields:
       - {label: "Başlık", name: "title", widget: "string"}
       - {label: "Özet", name: "excerpt", widget: "text"}
       - {label: "Yıl", name: "year", widget: "number"}
-      - {label: "Uygarlık", name: "civilization", widget: "select", options: ["Roman", "Osmanlı", "Bizans", "Türk", "Yunan", "Mısır"]}
-      - {label: "Kapak Görseli", name: "image", widget: "image"}
+      - {label: "Uygarlık", name: "civilization", widget: "string"}
+      - {label: "Kapak Fotoğrafı", name: "image", widget: "image"}
       - {label: "İçerik", name: "body", widget: "markdown"}
-
-  - name: "figures"
-    label: "Tarihi Karakterler"
-    folder: "content/figures"
-    create: true
-    delete: true
-    fields:
-      - {label: "İsim", name: "name", widget: "string"}
-      - {label: "Açıklama", name: "description", widget: "text"}
-      - {label: "Yıl", name: "year", widget: "number"}
-      - {label: "Görsel", name: "image", widget: "image"}
-      - {label: "Detay", name: "body", widget: "markdown"}
-
-  - name: "podcasts"
-    label: "Podcast'ler"
-    folder: "content/podcasts"
-    create: true
-    delete: true
-    fields:
-      - {label: "Başlık", name: "title", widget: "string"}
-      - {label: "Bölüm", name: "episode", widget: "number"}
-      - {label: "Ses Dosyası", name: "audio", widget: "file"}
-      - {label: "Açıklama", name: "description", widget: "text"}
