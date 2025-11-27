@@ -1,392 +1,120 @@
-<!doctype html>
-<html lang="tr">
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Epic History — Tek Sayfa (2025) — Güncel</title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
-  <!-- Tailwind CDN for rapid prototyping (replace with build pipeline for production) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root{
-      --bg:#0b1020;
-      --card:#0f1724;
-      --muted:#9aa4b2;
-      --accent:#ffb86b;
-      --glass: rgba(255,255,255,0.04);
-      --glass-2: rgba(255,255,255,0.02);
-      --glass-border: rgba(255,255,255,0.06);
-
-      /* light theme friendly variables */
-      --bg-light:#f4f6f8;
-      --card-light:#ffffff;
-      --muted-light:#475569;
-      --glass-light: rgba(255,255,255,0.75);
-      --glass-border-light: rgba(0,0,0,0.06);
-    }
-    html,body{height:100%;background:linear-gradient(180deg,var(--bg),#081024);font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial}
-    .hero-bg{background-image: radial-gradient( circle at 10% 10%, rgba(255,184,107,0.06), transparent 5% ), linear-gradient(180deg, rgba(255,255,255,0.02), transparent 40% );}
-    .glass{background:var(--glass);border:1px solid var(--glass-border);backdrop-filter: blur(6px)}
-    .card-hover:hover{transform:translateY(-6px) scale(1.01)}
-    /* timeline */
-    .timeline-track{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,184,107,0.03));height:8px;border-radius:999px}
-    /* subtle animated glow */
-    .glow{box-shadow:0 8px 30px rgba(255,184,107,0.06)}
-    /* accessibility: focus outlines */
-    :focus{outline:2px dashed var(--accent);outline-offset:3px}
-
-    /* TOC panel */
-    #tocPanel{transition:transform .35s cubic-bezier(.2,.9,.2,1);transform:translateX(110%);}    
-    #tocPanel.open{transform:translateX(0%);}    
-
-    /* responsive tweaks */
-    @media (max-width:768px){
-      header{left:8px;right:8px;transform:none}
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epic History - Tarihin En Epik Hali</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #d4af37; --dark: #0f0f23; --darker: #1a1a2e; }
+        [data-theme="light"] { --gold: #b8860b; --dark: #f8f9fa; --darker: #e9ecef; background:#f8f9fa; color:#212529; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark); color: #f8f9fa; transition: all 0.4s; }
+        .cinzel { font-family: 'Cinzel', serif; }
+        .glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
+    </style>
 </head>
-<body class="text-white antialiased">
-  <!-- Top nav / Header -->
-  <header class="fixed top-4 left-1/2 -translate-x-1/2 w-[92%] max-w-7xl z-40">
-    <div class="flex items-center justify-between p-3 glass rounded-2xl shadow-lg">
-      <div class="flex items-center gap-3">
-        <div class="px-3 py-2 rounded-lg bg-gradient-to-r from-yellow-400/10 to-pink-400/6 shadow-inner">
-          <h1 class="text-xl font-extrabold tracking-wide" style="font-family:Cinzel,serif">EPIC<span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-400">HISTORY</span></h1>
+<body class="min-h-screen">
+
+<header class="text-center py-12">
+    <h1 class="text-6xl cinzel text-var(--gold)">EPIC HISTORY</h1>
+    <p class="text-xl opacity-80">Tarih • Hikâye • Podcast</p>
+    <button id="themeBtn" class="mt-4 px-6 py-2 glass rounded-full">Dark/Light</button>
+</header>
+
+<div class="max-w-7xl mx-auto px-4 grid md:grid-cols-4 gap-8">
+    <!-- Sol Menü + Filtreler -->
+    <aside class="space-y-6">
+        <div class="glass p-6 rounded-xl">
+            <input id="search" placeholder="Ara..." class="w-full bg-transparent border-b border-gray-500 pb-2 outline-none">
+            <div class="flex gap-2 mt-4 flex-wrap">
+                <select id="civFilter" class="glass px-3 py-1 rounded"><option>Tüm Uygarlıklar</option><option>Roman</option><option>Osmanlı</option><option>Bizans</option></select>
+                <button id="clearBtn" class="glass px-4 py-1 rounded">Temizle</button>
+            </div>
         </div>
-        <p class="text-sm text-[var(--muted)]">Tarih, hikâye, podcast & derin analiz — tek sayfa</p>
-      </div>
-      <nav class="flex items-center gap-3">
-        <div class="hidden md:flex items-center gap-4 text-sm text-[var(--muted)]">
-          <a class="hover:text-white transition" href="#articles">Makaleler</a>
-          <a class="hover:text-white transition" href="#podcasts">Podcast</a>
-          <a class="hover:text-white transition" href="#figures">Tarihi Karakterler</a>
-          <a class="hover:text-white transition" href="#civilizations">Uygarlıklar</a>
+
+        <!-- Zaman Tüneli -->
+        <div class="glass p-6 rounded-xl">
+            <h3 class="cinzel text-xl mb-4">Zaman Tüneli</h3>
+            <input type="range" min="-3000" max="2025" value="0" class="w-full" id="yearSlider">
+            <p class="text-center mt-2">M.Ö. 3000 ——— <span id="yearDisplay">0</span> ——— M.S. 2025</p>
         </div>
-        <div class="flex items-center gap-2">
-          <button id="themeToggle" aria-label="Tema değiştir" class="p-2 rounded-md glass" title="Tema değiştir"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg></button>
-          <button id="tocOpen" class="p-2 rounded-md glass" title="İçindekiler"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 7h18M3 12h18M3 17h18"/></svg></button>
-        </div>
-      </nav>
+    </aside>
+
+    <!-- Ana İçerik -->
+    <main class="md:col-span-2 space-y-12">
+        <section id="articles"></section>
+        <section id="podcast" class="glass p-8 rounded-xl"></section>
+    </main>
+
+    <!-- Sağ Sidebar - Karakterler -->
+    <aside id="figures" class="space-y-6"></aside>
+</div>
+
+<!-- Modal -->
+<div id="modal" class="fixed inset-0 bg-black bg-opacity-90 hidden flex items-center justify-center z-50" onclick="this.hidden=true">
+    <div class="glass p-8 max-w-4xl max-h-screen overflow-y-auto rounded-xl" onclick="event.stopPropagation()">
+        <button class="float-right text-3xl" onclick="document.getElementById('modal').hidden=true">×</button>
+        <div id="modalContent"></div>
     </div>
-  </header>
+</div>
 
-  <!-- Side TOC panel (hidden, slides in) -->
-  <aside id="tocPanel" class="fixed right-0 top-0 h-full w-80 p-6 glass z-50">
-    <button id="tocClose" class="mb-4 p-2 glass rounded-md">Kapat</button>
-    <h3 class="font-bold text-lg">İçindekiler</h3>
-    <nav class="mt-4 flex flex-col gap-2 text-[var(--muted)]">
-      <a href="#articles" class="p-2 rounded-md hover:bg-[var(--glass-2)]">Makaleler</a>
-      <a href="#podcasts" class="p-2 rounded-md hover:bg-[var(--glass-2)]">Podcast</a>
-      <a href="#figures" class="p-2 rounded-md hover:bg-[var(--glass-2)]">Tarihi Karakterler</a>
-      <a href="#civilizations" class="p-2 rounded-md hover:bg-[var(--glass-2)]">Uygarlıklar</a>
-    </nav>
-  </aside>
+<script>
+    // Tema değiştirici
+    document.getElementById('themeBtn').onclick = () => {
+        const isLight = document.documentElement.dataset.theme === 'light';
+        document.documentElement.dataset.theme = isLight ? 'dark' : 'light';
+    };
 
-  <!-- Hero -->
-  <main class="pt-28">
-    <section class="max-w-7xl mx-auto px-6 py-12 hero-bg rounded-3xl glass overflow-hidden shadow-2xl">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-        <div>
-          <h2 class="text-4xl md:text-6xl font-extrabold leading-tight" style="font-family:Cinzel,serif">Geçmişin <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-400">Epik</span> Hikâyeleri</h2>
-          <p class="mt-4 text-[var(--muted)] max-w-xl">Derinlemesine makaleler, kayıt dışı podcast bölümleri, zaman tünelleri ve interaktif karakter portreleri. Tarihi yeniden hissetmeye hazır mısın?</p>
-          <div class="mt-6 flex gap-3">
-            <a href="#articles" class="inline-flex items-center gap-3 px-5 py-3 rounded-xl bg-gradient-to-r from-yellow-400 to-pink-400 text-black font-semibold shadow-lg">Başla <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-            <button id="listenLatest" class="inline-flex items-center gap-2 px-4 py-3 rounded-xl glass">En son podcast <span class="ml-2 text-sm text-[var(--muted)]">▶</span></button>
-          </div>
-          <div class="mt-6 text-sm text-[var(--muted)]">Tema ve renkler kolayca değiştirilebilir — CSS değişkenlerine bakın.</div>
-        </div>
-        <div class="relative">
-          <!-- Visual: replaced problematic image with decorative SVG/gradient to avoid broken images -->
-          <div class="absolute -right-6 -top-6 w-72 h-72 rounded-2xl overflow-hidden glass glow" style="transform:rotate(6deg); z-index:1; display:flex; align-items:center; justify-content:center;">
-            <!-- decorative vector to keep epic look but avoid external image issues -->
-            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="w-full h-full opacity-90">
-              <defs>
-                <linearGradient id="g1" x1="0" x2="1">
-                  <stop offset="0%" stop-color="#ffb86b" stop-opacity="0.18"/>
-                  <stop offset="100%" stop-color="#ff6b6b" stop-opacity="0.12"/>
-                </linearGradient>
-              </defs>
-              <rect width="200" height="200" rx="20" fill="url(#g1)" />
-              <g fill="none" stroke="rgba(10,10,10,0.06)" stroke-width="1.5">
-                <path d="M20 150 Q60 90 100 120 T180 60"/>
-                <path d="M30 120 Q70 70 110 100 T170 40"/>
-              </g>
-              <text x="12" y="32" fill="rgba(10,10,10,0.12)" font-size="14" style="font-family: Cinzel, serif">ARCHAEOLOGY</text>
-            </svg>
-          </div>
+    // Veri yükleme (CMS’ten)
+    let articles = [], figures = [];
 
-          <div class="relative z-20 p-6 glass rounded-2xl">
-            <h3 class="font-semibold">Zaman Tüneli</h3>
-            <div class="mt-4">
-              <div class="timeline-track w-full"></div>
-              <input id="timeline" type="range" min="-3000" max="2000" step="1" value="0" class="w-full mt-4" aria-label="Tarih kaydırıcı">
-              <div class="flex justify-between mt-2 text-xs text-[var(--muted)]"><span>-3000</span><span>0</span><span>2000</span></div>
-            </div>
-            <div id="timelineLabel" class="mt-4 text-sm text-[var(--muted)]">Seçilen yıl: <span class="text-white font-medium">0</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
+    async function loadData() {
+        // articles.json ve figures.json oluşturacağız
+        try {
+            articles = await (await fetch('/content/articles.json')).json();
+            figures  = await (await fetch('/content/figures.json')).json();
+        } catch(e) {
+            articles = []; figures = [];
+        }
+        render();
+    }
 
-    <!-- Main content area -->
-    <section class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
-      <!-- Left: Articles -->
-      <div class="lg:col-span-2 space-y-6">
-        <div id="articles" class="space-y-4">
-          <div class="flex items-center justify-between">
-            <h3 class="text-2xl font-bold">Öne Çıkan Makaleler</h3>
-            <div class="flex items-center gap-2">
-              <input id="search" type="search" placeholder="Ara: örn. Roma, Moğol" class="px-3 py-2 rounded-md bg-[var(--glass-2)] text-sm focus:ring-0 focus:outline-none" />
-              <button id="clearSearch" class="px-3 py-2 glass rounded-md">Temizle</button>
-            </div>
-          </div>
-          <div id="articleGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-5"></div>
-        </div>
-
-        <!-- Podcasts -->
-        <div id="podcasts" class="space-y-4">
-          <h3 class="text-2xl font-bold">Podcast & Ses Bölümleri</h3>
-          <div class="glass p-4 rounded-2xl">
-            <div class="flex flex-col md:flex-row gap-4 items-center">
-              <img id="podCover" src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80" alt="podcast" class="w-36 h-36 object-cover rounded-xl shadow-md">
-              <div class="flex-1">
-                <h4 id="podTitle" class="font-semibold text-lg">Bölüm 1 — Savaş ve Siyaset</h4>
-                <p class="text-sm text-[var(--muted)] mt-2">Kısa özet: Antik çağın strateji ustaları ve dönüm noktaları.</p>
-                <div class="mt-4 flex items-center gap-3">
-                  <!-- Replaced sample src with public demo file to ensure it plays -->
-                  <audio id="podPlayer" controls preload="none" style="width:100%" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">Tarayıcınız audio etiketini desteklemiyor.</audio>
+    function render() {
+        // Makaleler
+        document.getElementById('articles').innerHTML = 
+            `<h2 class="cinzel text-4xl mb-8">Makaleler</h2>` +
+            articles.map(a => `
+                <div class="glass p-6 rounded-xl cursor-pointer hover:ring-2 hover:ring-var(--gold)" onclick="openModal(\`${a.body}\`, '${a.title}')">
+                    <img src="${a.image}" class="w-full h-64 object-cover rounded-lg mb-4">
+                    <h3 class="cinzel text-2xl">${a.title}</h3>
+                    <p class="opacity-80">${a.excerpt}</p>
+                    <small>${a.year} • ${a.civilization}</small>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
+            `).join('');
 
-        <!-- Deep dive expandable article modal -->
-        <div id="articleModal" class="fixed inset-0 hidden items-center justify-center z-50 p-6">
-          <div class="absolute inset-0 bg-black/60" onclick="closeModal()"></div>
-          <div class="relative max-w-4xl w-full glass p-6 rounded-2xl overflow-auto max-h-[90vh]">
-            <button onclick="closeModal()" class="absolute top-4 right-4 p-2 glass rounded-md">✕</button>
-            <article id="articleContent"></article>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right sidebar: Characters & civs -->
-      <aside class="space-y-6">
-        <div id="figures" class="glass p-4 rounded-2xl">
-          <h4 class="font-semibold">Tarihi Karakterler</h4>
-          <div id="figList" class="mt-3 space-y-3"></div>
-        </div>
-
-        <div id="civilizations" class="glass p-4 rounded-2xl">
-          <h4 class="font-semibold">Uygarlıklar</h4>
-          <div class="mt-3 grid grid-cols-1 gap-2">
-            <button class="p-2 rounded-md card-hover glass text-left" onclick="filterByCivilization('Roman')">Roma İmparatorluğu</button>
-            <button class="p-2 rounded-md card-hover glass text-left" onclick="filterByCivilization('Mongol')">Moğol İmparatorluğu</button>
-            <button class="p-2 rounded-md card-hover glass text-left" onclick="filterByCivilization('Egypt')">Eski Mısır</button>
-          </div>
-        </div>
-
-        <div class="glass p-4 rounded-2xl">
-          <h4 class="font-semibold">Renk / Tema</h4>
-          <div class="mt-3 flex gap-2">
-            <button onclick="setTheme('gold')" class="px-3 py-2 rounded-md">Altın</button>
-            <button onclick="setTheme('slate')" class="px-3 py-2 rounded-md">Klasik</button>
-          </div>
-        </div>
-      </aside>
-    </section>
-  </main>
-
-  <!-- Footer (epic redesign) -->
-  <footer class="mt-12 mb-12">
-    <div class="max-w-7xl mx-auto px-6 py-10 rounded-2xl glass" style="border:1px solid rgba(255,255,255,0.04)">
-      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-        <div>
-          <h2 class="text-3xl font-bold" style="font-family:Cinzel,serif">⚔️ Epic History Archive</h2>
-          <p class="text-sm text-[var(--muted)] mt-2 max-w-xl">Geçmişin ihtişamı, uygarlıkların yükselişi ve savaşların kaderi belirlediği anlar… Tüm tarih tek bir destanda birleşiyor.</p>
-        </div>
-        <div class="text-right">
-          <p class="text-sm text-[var(--muted)]">Bize katıl: <span class="font-semibold">newsletter@epichistory.example</span></p>
-          <div class="mt-3 flex gap-3 justify-end">
-            <a class="px-3 py-2 rounded-md glass">Twitter</a>
-            <a class="px-3 py-2 rounded-md glass">YouTube</a>
-            <a class="px-3 py-2 rounded-md glass">RSS</a>
-          </div>
-        </div>
-      </div>
-      <div class="mt-6 text-xs text-[var(--muted)] text-center">© 2025 Epic History Project — Tüm Hakları Saklıdır.</div>
-    </div>
-  </footer>
-
-  <!-- Scripts: data-driven components, minimal and modular for easy editing -->
-  <script>
-    // --- SAMPLE DATA (replace with your CMS/API later) ---
-    const ARTICLES = [
-      {id:1,title:'Kuşatma Sanatı: Antik Dünyada Savaş Taktikleri',excerpt:'Kuleden kuşatma makinelerine, antik komutanların kullandığı yöntemler.',year:-200, civ:'Roman',cover:'https://images.unsplash.com/photo-1508873699372-7ae6f7a3e5f8?auto=format&fit=crop&w=800&q=80',content:`<h2>Kuşatma Sanatı</h2><p>Detaylı makale içeriği... (örnek). Bu bölüm düzenlenebilir.</p>`},
-      {id:2,title:'Moğolların At Hızı: İmparatorluğun Yükselişi',excerpt:'Nomadik taktikler, lojistik ve imparatorluğun yayılışı.',year:1200,civ:'Mongol',cover:'https://images.unsplash.com/photo-1508609349937-5ec4ae374ebf?auto=format&fit=crop&w=800&q=80',content:'<h2>Moğollar</h2><p>Makale metni...</p>'},
-      {id:3,title:'Nil ve Krallık: Eski Mısır’ın Sırları',excerpt:'Mısır\'ın dini, mimarisi ve yönetim sistemi.',year:-1500,civ:'Egypt',cover:'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80',content:'<h2>Eski Mısır</h2><p>Makale metni...</p>'}
-    ];
-
-    const FIGURES = [
-      {id:'c1',name:'Hannibal Barca',bio:'Kartaca generali, Roma\'ya karşı ünlü Alp geçişiyle bilinir.',img:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80',year:-218},
-      {id:'c2',name:'Genghis Khan',bio:'Moğol İmparatorluğu\'nun kurucusu.',img:'https://images.unsplash.com/photo-1549880338-65ddcdfd017b?auto=format&fit=crop&w=800&q=80',year:1206}
-    ];
-
-    // Render functions
-    const articleGrid = document.getElementById('articleGrid');
-    const figList = document.getElementById('figList');
-
-    function renderArticles(filterText='', year=null, civ=null){
-      articleGrid.innerHTML='';
-      const q = String(filterText||'').trim().toLowerCase();
-      const filtered = ARTICLES.filter(a=>{
-        const hay = (a.title + ' ' + a.excerpt + ' ' + a.civ).toLowerCase();
-        const matchesText = q === '' ? true : hay.includes(q);
-        const matchesYear = year===null ? true : Math.abs(a.year - year) <= 50; // +/- window
-        const matchesCiv = civ ? a.civ===civ : true;
-        return matchesText && matchesYear && matchesCiv;
-      });
-      if(filtered.length===0){
-        articleGrid.innerHTML = `<div class="glass p-6 rounded-2xl text-[var(--muted)]">Bu kriterlere uygun makale bulunamadı.</div>`;
-        return;
-      }
-      for(const art of filtered){
-        const el = document.createElement('div');
-        el.className='glass p-4 rounded-2xl card-hover transition-transform article-card';
-        el.innerHTML = `
-          <div class=\"flex gap-4\"> 
-            <img loading=\"lazy\" src=\"${art.cover}\" alt=\"${art.title}\" class=\"w-24 h-24 object-cover rounded-lg shadow\" />
-            <div class=\"flex-1\"> 
-              <h4 class=\"font-semibold\">${art.title}</h4>
-              <p class=\"text-sm text-[var(--muted)] mt-1\">${art.excerpt}</p>
-              <div class=\"mt-3 flex items-center gap-2\"><button class=\"px-3 py-1 rounded-md glass text-sm\" onclick=\"openArticle(${art.id})\">Oku</button><span class=\"text-xs text-[var(--muted)]\">${art.year}</span></div>
-            </div>
-          </div>
-        `;
-        articleGrid.appendChild(el);
-      }
+        // Karakterler
+        document.getElementById('figures').innerHTML = 
+            `<h3 class="cinzel text-2xl mb-4">Tarihi Karakterler</h3>` +
+            figures.map(f => `
+                <div class="glass p-4 rounded-lg cursor-pointer" onclick="openModal(\`${f.body}\`, '${f.name}')">
+                    <img src="${f.image}" class="w-full h-48 object-cover rounded-lg">
+                    <h4 class="cinzel text-xl mt-2">${f.name}</h4>
+                </div>
+            `).join('');
     }
 
-    function renderFigures(){
-      figList.innerHTML='';
-      for(const f of FIGURES){
-        const b = document.createElement('div');
-        b.className='flex items-center gap-3 p-2 rounded-md card-hover';
-        b.innerHTML = `<img loading=\"lazy\" src=\"${f.img}\" alt=\"${f.name}\" class=\"w-12 h-12 rounded-md object-cover\"><div><div class=\"font-semibold\">${f.name}</div><div class=\"text-xs text-[var(--muted)]\">${f.bio}</div></div>`;
-        b.onclick = ()=> openFigure(f);
-        figList.appendChild(b);
-      }
+    function openModal(html, title = '') {
+        document.getElementById('modalContent').innerHTML = `<h2 class="cinzel text-3xl mb-6">${title}</h2>` + html;
+        document.getElementById('modal').hidden = false;
     }
 
-    function openArticle(id){
-      const art = ARTICLES.find(a=>a.id===id);
-      if(!art) return;
-      document.getElementById('articleContent').innerHTML = `
-        <h1 class=\"text-2xl font-bold\">${art.title}</h1>
-        <p class=\"text-sm text-[var(--muted)]\">Yıl: ${art.year} — Uygarlık: ${art.civ}</p>
-        <div class=\"mt-4\">${art.content}</div>
-      `;
-      document.getElementById('articleModal').classList.remove('hidden');
-      document.getElementById('articleModal').classList.add('flex');
-    }
-    function closeModal(){document.getElementById('articleModal').classList.add('hidden');document.getElementById('articleModal').classList.remove('flex')}
+    // Filtreleme + Zaman tüneli (temel)
+    document.getElementById('yearSlider').oninput = (e) => {
+        document.getElementById('yearDisplay').textContent = e.target.value;
+    };
 
-    function openFigure(f){
-      document.getElementById('articleContent').innerHTML = `
-        <div class=\"flex gap-4 items-start\"><img src=\"${f.img}\" class=\"w-40 h-40 object-cover rounded-md\"><div><h2 class=\"text-xl font-bold\">${f.name}</h2><p class=\"text-sm text-[var(--muted)]\">${f.bio}</p><p class=\"text-xs text-[var(--muted)] mt-2\">Aktif: ${f.year}</p></div></div>
-      `;
-      document.getElementById('articleModal').classList.remove('hidden');document.getElementById('articleModal').classList.add('flex');
-    }
-
-    // Filters
-    const searchInput = document.getElementById('search');
-    function handleSearch(){
-      const q = searchInput.value.trim();
-      renderArticles(q, parseInt(document.getElementById('timeline').value));
-    }
-    searchInput.addEventListener('input', debounce(handleSearch, 180));
-    document.getElementById('clearSearch').addEventListener('click', ()=>{document.getElementById('search').value='';renderArticles('', parseInt(document.getElementById('timeline').value))});
-
-    // simple debounce
-    function debounce(fn, ms){
-      let t; return (...args)=>{clearTimeout(t); t=setTimeout(()=>fn(...args), ms)}
-    }
-
-    // timeline
-    const timeline = document.getElementById('timeline');
-    function updateTimeline(){
-      const year = parseInt(timeline.value);
-      document.querySelector('#timelineLabel span').textContent = year;
-      renderArticles(document.getElementById('search').value, year);
-    }
-    timeline.addEventListener('input', updateTimeline);
-
-    // Ensure timeline initial state is applied
-    updateTimeline();
-
-    // simple civ filter
-    function filterByCivilization(civ){
-      renderArticles(document.getElementById('search').value, parseInt(document.getElementById('timeline').value), civ);
-    }
-    window.filterByCivilization = filterByCivilization;
-
-    // theme toggles (improved light theme to be softer)
-    const themeToggle = document.getElementById('themeToggle');
-    themeToggle.addEventListener('click', ()=>{
-      const isLight = document.documentElement.classList.toggle('light-mode');
-      if(isLight){
-        document.documentElement.style.setProperty('--bg', getComputedStyle(document.documentElement).getPropertyValue('--bg-light') || '#f4f6f8');
-        document.documentElement.style.setProperty('--card', getComputedStyle(document.documentElement).getPropertyValue('--card-light') || '#fff');
-        document.documentElement.style.setProperty('--muted', getComputedStyle(document.documentElement).getPropertyValue('--muted-light') || '#475569');
-        document.documentElement.style.setProperty('--glass', getComputedStyle(document.documentElement).getPropertyValue('--glass-light') || 'rgba(255,255,255,0.75)');
-        document.documentElement.style.setProperty('--glass-2','rgba(10,12,16,0.03)');
-        document.documentElement.style.setProperty('--glass-border', getComputedStyle(document.documentElement).getPropertyValue('--glass-border-light') || 'rgba(0,0,0,0.06)');
-        document.documentElement.style.setProperty('--accent','#c77d2f');
-        document.body.style.color='#0b1220';
-        // soften hero gradient for light
-        document.querySelectorAll('.hero-bg').forEach(el=>el.style.backgroundImage='radial-gradient(circle at 10% 10%, rgba(199,125,47,0.04), transparent 5%), linear-gradient(180deg, rgba(10,12,16,0.02), transparent 40%)');
-      } else {
-        document.documentElement.style.setProperty('--bg','#0b1020');
-        document.documentElement.style.setProperty('--card','#0f1724');
-        document.documentElement.style.setProperty('--muted','#9aa4b2');
-        document.documentElement.style.setProperty('--glass','rgba(255,255,255,0.04)');
-        document.documentElement.style.setProperty('--glass-2','rgba(255,255,255,0.02)');
-        document.documentElement.style.setProperty('--glass-border','rgba(255,255,255,0.06)');
-        document.documentElement.style.setProperty('--accent','#ffb86b');
-        document.body.style.color='white';
-        document.querySelectorAll('.hero-bg').forEach(el=>el.style.backgroundImage='radial-gradient(circle at 10% 10%, rgba(255,184,107,0.06), transparent 5%), linear-gradient(180deg, rgba(255,255,255,0.02), transparent 40%)');
-      }
-      // subtle header pulse
-      const h = document.querySelector('header div'); if(h){h.animate([{transform:'scale(1)'},{transform:'scale(1.01)'},{transform:'scale(1)'}],{duration:300})}
-    });
-    window.setTheme = (name)=>{
-      if(name==='gold'){document.documentElement.style.setProperty('--accent','#ffb86b');}
-      if(name==='slate'){document.documentElement.style.setProperty('--accent','#8b99a6');}
-      const h = document.querySelector('header div'); if(h){h.animate([{transform:'scale(1)'},{transform:'scale(1.02)'},{transform:'scale(1)'}],{duration:350});}
-    }
-
-    // TOC open/close
-    const tocOpen = document.getElementById('tocOpen');
-    const tocPanel = document.getElementById('tocPanel');
-    const tocClose = document.getElementById('tocClose');
-    tocOpen.addEventListener('click', ()=>{tocPanel.classList.add('open');});
-    tocClose.addEventListener('click', ()=>{tocPanel.classList.remove('open');});
-
-    // listen latest button simulates selecting the first podcast
-    document.getElementById('listenLatest').addEventListener('click', ()=>{
-      const player = document.getElementById('podPlayer');
-      if(player){player.play().catch(()=>{/* ignore autoplay block */});}
-    });
-
-    // initial render
-    renderArticles();renderFigures();
-
-    // Expose helpers for future editing
-    window.openArticle = openArticle; window.openFigure = openFigure; window.closeModal = closeModal;
-
-    // NOTE: Replace the sample audio src, images and article data with your CMS or static assets. This file is intentionally standalone and modular.
-  </script>
+    loadData();
+</script>
 </body>
 </html>
