@@ -1,0 +1,13 @@
+[build]
+command = ""
+publish = "public"
+
+[[redirects]]
+from = "/admin/*"
+to = "/admin/:splat"
+status = 200
+
+[[headers]]
+for = "/admin/**"
+[headers.values]
+X-Frame-Options = "ALLOWALL"
